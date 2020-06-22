@@ -1,0 +1,88 @@
+{% import './fields/_macros.html' as forms %}
+{%- set DB_FIELD = FROM_DB ? ' db-field' : '' -%}
+{%- set label_disp_options = [
+	{ value: 0, label: 'NO' },
+	{ value: 1, label: 'LABEL_HIDDEN' },
+	{ value: 2, label: 'LABEL_INLINE' },
+	{ value: 3, label: 'LABEL_NEWLINE' }
+] -%}
+{%- set field_disp_options = [
+	{ value: 'above', label: 'FIELD_SHOW_ABOVE' },
+	{ value: 'inline', label: 'FIELD_SHOW_INLINE' },
+	{ value: 'body', label: 'FIELD_SHOW_BODY' },
+	{ value: 'footer', label: 'FIELD_SHOW_FOOTER' },
+	{ value: '', label: 'FIELD_DONOT_SHOW' }
+] -%}
+{% for field in CONTENT_FIELDS %}
+	<div id="{{ 'cfield-' ~ field.FIELD_NAME }}" class="field">
+		<h3 id="{{ field.FIELD_NAME ~ '-header' }}">
+			{{ field.FIELD_LABEL }}
+			<span class="small field-type">[ {{ lang(field.TYPE_LABEL) }} ]</span>
+		</h3>
+		<div id="{{ field.FIELD_NAME ~ '-panel' }}">
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-field_label' }}">{{ lang('FIELD_LABEL') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<input type="text" id="{{ field.FIELD_NAME ~ '-field_label' }}" name="field_data[{{ field.FIELD_NAME }}][field_label]" value="{{ field.FIELD_LABEL }}" class="field_label text ui-corner-all" />
+					<input type="hidden" id="{{ field.FIELD_NAME ~ '-field_name' }}" name="field_data[{{ field.FIELD_NAME }}][field_name]" value="{{ field.FIELD_NAME }}" />
+					<input type="hidden" id="{{ field.FIELD_NAME ~ '-field_type' }}" name="field_data[{{ field.FIELD_NAME }}][field_type]" value="{{ field.FIELD_TYPE }}" />
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-field_explain' }}">{{ lang('FIELD_DESCRIPTION') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<textarea id="{{ field.FIELD_NAME ~ '-field_explain' }}" class="text ui-corner-all" name="field_data[{{ field.FIELD_NAME }}][field_explain]" rows="3">{{ field.FIELD_EXPLAIN }}</textarea>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-poster' }}">{{ lang('FIELD_POSTER') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="checkbox" id="{{ field.FIELD_NAME ~ '-poster' }}" class="checkbox" name="field_data[{{ field.FIELD_NAME }}][field_mod_only]" value="1"{% if field.FIELD_MOD_ONLY %} checked="checked"{% endif %} /> {{ lang('FIELD_INPUT_MODERATOR') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-required' }}">{{ lang('FIELD_REQUIRED') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<label><input type="radio" id="{{ field.FIELD_NAME ~ '-required-0' }}" class="radio" name="field_data[{{ field.FIELD_NAME }}][field_required]" value="1"{% if field.FIELD_REQUIRED %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+					<label><input type="radio" id="{{ field.FIELD_NAME ~ '-required-1' }}" class="radio" name="field_data[{{ field.FIELD_NAME }}][field_required]" value="0"{% if !field.FIELD_REQUIRED %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-display' }}">{{ lang('FIELD_DISPLAY') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<div class="column1">
+						<h5>{{ lang('CONTENT_INDEX') }}</h5>
+						{{ forms.dropdown(field.FIELD_NAME ~ '-field_summary_show', 'field_data[' ~ field.FIELD_NAME ~ '][field_summary_show]', field.FIELD_SUMMARY_SHOW, field_disp_options) }}
+					</div>
+					<div class="column2">
+						<h5>{{ lang('CONTENT_DETAIL') }}</h5>
+						{{ forms.dropdown(field.FIELD_NAME ~ '-field_detail_show', 'field_data[' ~ field.FIELD_NAME ~ '][field_detail_show]', field.FIELD_DETAIL_SHOW, field_disp_options) }}
+					</div>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="{{ field.FIELD_NAME ~ '-summary_ldisp' }}">{{ lang('FIELD_DISPLAY_LABEL') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<div class="column1">
+						<h5>{{ lang('CONTENT_INDEX') }}</h5>
+						{{ forms.dropdown(field.FIELD_NAME ~ '-field_summary_ldisp', 'field_data[' ~ field.FIELD_NAME ~ '][field_summary_ldisp]', field.FIELD_SUMMARY_LDISP, label_disp_options) }}
+					</div>
+					<div class="column2">
+						<h5>{{ lang('CONTENT_DETAIL') }}</h5>
+						{{ forms.dropdown(field.FIELD_NAME ~ '-field_detail_ldisp', 'field_data[' ~ field.FIELD_NAME ~ '][field_detail_ldisp]', field.FIELD_DETAIL_LDISP, label_disp_options) }}
+					</div>
+				</dd>
+			</dl>
+			{% if attribute(forms, field.FIELD_TYPE) is defined %}
+			<div class="field-settings">
+				{{ attribute(forms, field.FIELD_TYPE, [field]) }}
+			</div>
+			{% endif %}
+			{% EVENT blitze_content_form_field_settings %}
+		</div>
+		<div class="field-actions">
+			<a href="#" class="remove-field{{ DB_FIELD }} field-icon ui-dialog-titlebar-close ui-corner-all" title="{{ lang('DELETE') }}" data-field="{{ field.FIELD_NAME }}"><span class="ui-icon ui-icon-closethick">{{ lang('DELETE') }}</span></a>
+			<a href="#" class="edit-field{{ DB_FIELD }} field-icon ui-dialog-titlebar-close ui-corner-all" title="{{ lang('EDIT') }}" data-field="{{ field.FIELD_NAME }}"><span class="ui-icon ui-icon-gear">{{ lang('EDIT') }}</span></a>
+		</div>
+	</div>
+{% endfor %}

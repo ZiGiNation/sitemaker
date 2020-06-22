@@ -1,0 +1,38 @@
+services:
+
+    blitze.content.block.archive:
+        class: blitze\content\blocks\archive
+        arguments:
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@blitze.content.types'
+            - '@blitze.sitemaker.forum.data'
+            - '%sitemaker.cache_time%'
+        calls:
+            - [set_name, [blitze.content.block.archive]]
+        tags:
+            - { name: sitemaker.block }
+
+    blitze.content.block.recent:
+        class: blitze\content\blocks\recent
+        arguments:
+            - '@config'
+            - '@language'
+            - '@blitze.content.types'
+            - '@blitze.content.fields'
+            - '@blitze.sitemaker.date_range'
+            - '@blitze.sitemaker.forum.data'
+        calls:
+            - [set_name, [blitze.content.block.recent]]
+        tags:
+            - { name: sitemaker.block }
+
+    blitze.content.block.swiper:
+        class: blitze\content\blocks\swiper
+        parent: blitze.content.block.recent
+        arguments:
+            - '@blitze.sitemaker.util'
+        calls:
+            - [set_name, [blitze.content.block.swiper]]
+        tags:
+            - { name: sitemaker.block }

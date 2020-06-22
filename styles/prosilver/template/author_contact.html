@@ -1,0 +1,51 @@
+<div class="panel bg2" style="width: 70%; margin: 10px auto">
+	<div class="inner">
+		<dl>
+			<dt>
+				<strong>{{ lang('AUTHOR_INFO') }}</strong>
+				{% if not S_IS_BOT and CONTACT_FIELDS %}
+				<div class="profile-contact pull-right">
+					<strong>{{ lang('CONTACT') }}{{ lang('COLON') }}</strong>
+					<div class="dropdown-container dropdown-left">
+						<a href="#" class="dropdown-trigger" title="{{ CONTACT_USER }}">
+							<i class="icon fa-commenting-o fa-fw icon-lg" aria-hidden="true"></i><span class="sr-only">{{ CONTACT_USER }}</span>
+						</a>
+						<div class="dropdown hidden">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<div class="dropdown-contents contact-icons">
+							{% for contact in CONTACT_FIELDS %}
+								{% set REMAINDER = loop.index0 % 4 %}
+								{% DEFINE S_LAST_CELL = ((REMAINDER eq 3) or (loop.last and loop.length < 4)) %}
+								{% if REMAINDER eq 0 %}
+								<div>
+								{% endif %}
+									<a href="{% if contact.U_CONTACT %}{{ contact.U_CONTACT }}{% else %}{{ U_VIEWPROFILE }}{% endif %}" title="{{ contact.NAME }}"{% if definition.S_LAST_CELL %} class="last-cell"{% endif %}{% if contact.ID eq 'jabber' %} onclick="popup(this.href, 750, 320); return false;"{% endif %}>
+										<span class="contact-icon {{ contact.ID }}-icon">{{ contact.NAME }}</span>
+									</a>
+								{% if REMAINDER eq 3 or loop.last %}
+								</div>
+								{% endif %}
+							{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				<hr />
+			</dt>
+			<dd>
+				{% if AVATAR %}
+				<div class="pull-left medium-avatar img-circle" style="margin-right: 2.5em;">
+					<a class="img-ui" href="{{ U_VIEWPROFILE }}">{{ AVATAR }}</a>
+					{% if RANK_TITLE or RANK_IMG %}<div class="profile-rank">{{ RANK_TITLE }}{% if RANK_TITLE and RANK_IMG %}<br />{% endif %}{{ RANK_IMG }}</div>{% endif %}
+				</div>
+				{% endif %}
+				<p class="gen">{{ lang('USER_ABOUT') }}</p>
+				<span class="gen">
+					{% if U_SEARCH_CONTENTS %}<a href="{{ U_SEARCH_CONTENTS }}">{{ lang('USER_VIEW_ALL') }}</a><br />{% endif %}
+					<a href="{{ U_SEARCH_POSTS }}">{{ lang('SEARCH_USER_POSTS') }}</a>
+				</span>
+			</dd>
+		</dl>
+	</div>
+</div>

@@ -1,0 +1,117 @@
+services:
+
+    blitze.content.actions.topic.index:
+        class: blitze\content\services\actions\topic\index
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@blitze.content.types'
+            - '@blitze.content.fields'
+            - '@blitze.sitemaker.forum.data'
+            - '@blitze.content.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    blitze.content.actions.topic.moderate:
+        class: blitze\content\services\actions\topic\moderate
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    blitze.content.actions.topic.view:
+        class: blitze\content\services\actions\topic\view
+        arguments:
+            - '@request'
+            - '@template'
+            - '@blitze.content.types'
+            - '@blitze.content.views.factory'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    blitze.content.actions.type.index:
+        class: blitze\content\services\actions\type\index
+        arguments:
+            - '@controller.helper'
+            - '@language'
+            - '@template'
+            - '@blitze.content.types'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'
+
+    blitze.content.actions.type.add:
+        class: blitze\content\services\actions\type\add
+        arguments:
+            - '@auth'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@blitze.sitemaker.auto_lang'
+            - '@blitze.content.comments.factory'
+            - '@blitze.content.form.fields.factory'
+            - '@blitze.content.topic_blocks.factory'
+            - '@blitze.content.views.factory'
+
+    blitze.content.actions.type.edit:
+        class: blitze\content\services\actions\type\edit
+        parent: blitze.content.actions.type.add
+        arguments:
+            - '@dispatcher'
+            - '@blitze.content.types'
+            - '@blitze.content.mapper.factory'
+
+    blitze.content.actions.type.pre_delete:
+        class: blitze\content\services\actions\type\pre_delete
+        arguments:
+            - '@language'
+            - '@template'
+            - '@blitze.content.types'
+
+    blitze.content.actions.type.delete:
+        class: blitze\content\services\actions\type\delete
+        arguments:
+            - '@cache.driver'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@user'
+            - '@blitze.content.types'
+            - '@blitze.sitemaker.forum.manager'
+            - '@blitze.content.mapper.factory'
+            - '@blitze.sitemaker.mapper.factory'
+
+    blitze.content.actions.type.save:
+        class: blitze\content\services\actions\type\save
+        arguments:
+            - '@auth'
+            - '@cache.driver'
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@user'
+            - '@blitze.content.types'
+            - '@blitze.sitemaker.forum.manager'
+            - '@blitze.content.mapper.factory'
+            - '%core.root_path%%core.adm_relative_path%'
+            - '%core.php_ext%'
+
+    blitze.content.actions.type.toggle_status:
+        class: blitze\content\services\actions\type\toggle_status
+        arguments:
+            - '@cache.driver'
+            - '@blitze.content.types'
+            - '@blitze.content.mapper.factory'

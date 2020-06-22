@@ -1,0 +1,42 @@
+services:
+
+    blitze.content.admin.controller:
+        class: blitze\content\controller\admin_controller
+        arguments:
+            - '@language'
+            - '@blitze.content.action_handler'
+
+    blitze.content.field.controller:
+        class: blitze\content\controller\field_controller
+        arguments:
+            - '@dispatcher'
+            - '@request'
+            - '@template'
+            - '@blitze.sitemaker.auto_lang'
+            - '@blitze.content.form.fields.factory'
+
+    blitze.content.main.controller:
+        class: blitze\content\controller\main_controller
+        arguments:
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@blitze.content.types'
+            - '@blitze.content.feed'
+            - '@blitze.content.poll'
+            - '@blitze.content.views.factory'
+            - '@blitze.content.comments.factory'
+
+    blitze.content.mcp.controller:
+        class: blitze\content\controller\mcp_controller
+        arguments:
+            - '@language'
+            - '@blitze.content.action_handler'
+
+    blitze.content.ucp.controller:
+        class: blitze\content\controller\ucp_controller
+        arguments:
+            - '@language'
+            - '@blitze.content.action_handler'

@@ -1,0 +1,38 @@
+services:
+
+    blitze.content.base_view:
+        class: blitze\content\services\views\driver\base_view
+        abstract: true
+        arguments:
+            - '@dispatcher'
+            - '@language'
+            - '@pagination'
+            - '@template'
+            - '@blitze.content.fields'
+            - '@blitze.sitemaker.forum.data'
+            - '@blitze.content.helper'
+            - '@blitze.content.quickmod'
+            - '@blitze.content.topic_blocks.factory'
+
+    blitze.content.view.blog:
+        class: blitze\content\services\views\driver\blog
+        parent: blitze.content.base_view
+        tags:
+            - { name: sitemaker.content.view }
+
+    blitze.content.view.portal:
+        class: blitze\content\services\views\driver\portal
+        parent: blitze.content.base_view
+        arguments:
+            - '@config'
+            - '@blitze.content.types'
+        tags:
+            - { name: sitemaker.content.view }
+
+    blitze.content.view.tiles:
+        class: blitze\content\services\views\driver\tiles
+        parent: blitze.content.base_view
+        arguments:
+            - '@request'
+        tags:
+            - { name: sitemaker.content.view }

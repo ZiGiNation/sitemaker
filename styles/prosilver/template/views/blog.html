@@ -1,0 +1,63 @@
+{% if not S_HIDE_HEADERS %}{% INCLUDE 'overall_header.html' %}{% endif %}
+{% INCLUDECSS '@blitze_content/assets/view/blog/content_blog.min.css' %}
+{% INCLUDE 'parts/content_type.html' %}
+
+{%- set months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May_short', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ] -%}
+<div class="panel post sm-block-spacing">
+	<div class="inner">
+{% for topicrow in loops.topicrow %}
+	{%- set monthIndex = topicrow.TOPIC_UNIX_TIME|date('n') - 1 -%}
+		<div class="postbody sm-full-width">
+			<div class="calendar sm-responsive-hide">{{ topicrow.TOPIC_UNIX_TIME|date('d') }} <em>{{ lang(['datetime', months[monthIndex]]) }}</em></div>
+			<div class="sm-fill-space">
+				{% if not topicrow.CUSTOM_DISPLAY %}
+					{% INCLUDE 'parts/summary_title.html' %}
+				{% endif %}
+				<div class="content">
+				{% if topicrow.CUSTOM_DISPLAY %}
+					{{ topicrow.CUSTOM_DISPLAY }}
+				{% else %}
+					{{ topicrow.FIELDS.body|join }}
+					<p>&nbsp;</p>
+					<div class="align-right">
+						<a href="{{ topicrow.TOPIC_URL }}" class="button">{{ lang('READ_MORE') }}</a>
+					</div>
+				{% endif %}
+				</div>
+				{% if not topicrow.FIELDS.CUSTOM_DISPLAY %}
+				<div class="sm-content-footer">{{ topicrow.FIELDS.footer|join(' | ') }}</div>
+				{% endif %}
+			</div>
+		</div>
+		{% if not topicrow.S_LAST_ROW %}
+		<p>&nbsp;</p>
+		<hr class="dashed" />
+		<p>&nbsp;</p>
+		{% endif %}
+{% else %}
+		{{ lang('CONTENT_NO_TOPICS') }}
+{% endfor %}
+	</div>
+</div>
+
+{% if loops.pagination|length or TOTAL_POSTS %}
+<div class="action-bar bottom">
+	<div class="pagination" style="float: none">
+		{% if loops.pagination|length %}
+		<ul style="width: 100%">
+		{% for pagination in loops.pagination %}
+			{% if pagination.S_IS_PREV %}
+			<li class="arrow previous left-box"><a class="button button-icon-only" href="{pagination.PAGE_URL}" rel="prev" role="button"><i class="icon fa-chevron-{S_CONTENT_FLOW_BEGIN} fa-fw" aria-hidden="true"></i><span class="sr-only1">{L_PREVIOUS}</span></a></li>
+			{% endif %}
+			{% if pagination.S_IS_NEXT %}
+			<li class="arrow next right-box"><a class="button button-icon-only" href="{pagination.PAGE_URL}" rel="next" role="button"><i class="icon fa-chevron-{S_CONTENT_FLOW_END} fa-fw" aria-hidden="true"></i><span class="sr-only1">{L_NEXT}</span></a></li>
+			{% endif %}
+		{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+	<div class="clear"></div>
+</div>
+{% endif %}
+
+{% if not S_HIDE_HEADERS %}{% INCLUDE 'overall_footer.html' %}{% endif %}

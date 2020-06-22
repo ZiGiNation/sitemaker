@@ -1,0 +1,70 @@
+<script id="content-field-option" class="tpl" type="text/x-jquery-tmpl">
+	{{ source('fields/options.html') }}
+</script>
+
+<div id="dialog-confirm-delete" title="{{ lang('CONFIRM_DELETE') }}" style="display: none;">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{{ lang('DELETE_FIELD_CONFIRM') }}</p>
+</div>
+
+<div id="dialog-add-field" class="dialog-tpl" title="{{ lang('ADD_FIELD') }}" style="display: none;">
+	<fieldset>
+	<dl>
+		<dt><label for="dialog-fieldtype">{{ lang('FIELD_TYPE') }}</label></dt>
+		<dd>
+			<select id="dialog-fieldtype" class="select ui-corner-all">
+				{{ S_TYPE_OPS }}
+			</select>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label for="dialog-fieldname">{{ lang('FIELD_NAME') }}</label></dt>
+		<dd><input type="text" name="fieldname" value="" id="dialog-fieldname" class="text ui-corner-all" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="dialog-fieldlabel">{{ lang('FIELD_LABEL') }}</label></dt>
+		<dd><input type="text" name="fieldlabel" value="" id="dialog-fieldlabel" class="text ui-corner-all" /></dd>
+	</dl>
+	</fieldset>
+</div>
+
+<div id="dialog-edit-field" title="{{ lang('EDIT_FIELD') }}" style="display: none;">
+	<fieldset>
+	<dl>
+		<dt><label for="dialog-newtype">{{ lang('FIELD_TYPE') }}</label></dt>
+		<dd>
+			<select id="dialog-newtype" class="select ui-corner-all">
+				{{ S_TYPE_OPS }}
+			</select>
+		</dd>
+	</dl>
+	</fieldset>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+	var ajaxUrl = '{{ UA_AJAX_URL }}';
+	var trans = {
+		addField: '{{ lang('ADD')|escape('js') }}',
+		editField: '{{ lang('EDIT')|escape('js') }}',
+		deleteField: '{{ lang('DELETE')|escape('js') }}',
+		cancel: '{{ lang('CANCEL')|escape('js') }}',
+		taken: '{{ lang('FIELD_TAKEN')|escape('js') }}',
+		label: '{{ lang('LABEL')|escape('js') }}',
+		settings: '{{ lang('SETTINGS')|escape('js') }}',
+		fieldName: '{{ lang('MISSING_FIELD')|escape('js') }}',
+		fieldLabel: '{{ lang('MISSING_LABEL')|escape('js') }}'
+	};
+	var postData	= {
+		TOPIC_TITLE: '{{ lang('SAMPLE_POST')|escape('js') }}',
+		TOPIC_URL: '#',
+		TOPIC_AUTHOR: '{{ POST_AUTHOR }}',
+		TOPIC_AUTHOR_FULL: '{{ TOPIC_AUTHOR_FULL }}',
+		TOPIC_AUTHOR_COLOUR: '{{ TOPIC_AUTHOR_COLOUR }}',
+		TOPIC_AUTHOR_AVATAR: '{{ TOPIC_AUTHOR_AVATAR }}',
+		TOPIC_AUTHOR_URL: '#',
+		TOPIC_DATE: '{{ POST_DATE }}',
+		COMMENTS: 9,
+		TOPIC_VIEWS: 26
+	};
+// ]]>
+</script>

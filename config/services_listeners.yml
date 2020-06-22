@@ -1,0 +1,87 @@
+services:
+
+    blitze.content.event.assets:
+        class: blitze\content\event\assets
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.bbcodes:
+        class: blitze\content\event\bbcodes
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.feed:
+        class: blitze\content\event\feed
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@template'
+            - '@blitze.content.types'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.filters:
+        class: blitze\content\event\filters
+        arguments:
+            - '@blitze.sitemaker.date_range'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.listener:
+        class: blitze\content\event\listener
+        arguments:
+            - '@controller.helper'
+            - '@language'
+            - '@blitze.content.types'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.mcp_topic:
+        class: blitze\content\event\mcp_topic
+        arguments:
+            - '@dbal.conn'
+            - '@blitze.content.types'
+            - '@blitze.content.fields'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.mcp_post:
+        class: blitze\content\event\mcp_post
+        arguments:
+            - '@dbal.conn'
+            - '@blitze.content.types'
+            - '@blitze.content.fields'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.posting:
+        class: blitze\content\event\posting
+        arguments:
+            - '@controller.helper'
+            - '@template'
+            - '@blitze.content.form.builder'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.search:
+        class: blitze\content\event\search
+        arguments:
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@blitze.content.types'
+        tags:
+            - { name: event.listener }
+
+    blitze.content.event.viewtopic:
+        class: blitze\content\event\viewtopic
+        arguments:
+            - '@controller.helper'
+            - '@request'
+            - '@blitze.content.types'
+        tags:
+            - { name: event.listener }
